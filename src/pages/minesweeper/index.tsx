@@ -37,7 +37,15 @@ export default function Component() {
     }
   };
 
-  const handleOnStartButtonClick = () => setIsStarted(!isStarted);
+  const handleOnStartButtonClick = () => {
+    const newIsStarted = !isStarted;
+
+    setIsStarted(newIsStarted);
+    if (!newIsStarted) {
+      setSeconds(0);
+      setValues([]);
+    }
+  };
 
   return (
     <Container maxWidth="xs">
