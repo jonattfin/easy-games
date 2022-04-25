@@ -7,8 +7,10 @@ import TextField from "@mui/material/TextField";
 import Container from "@mui/material/Container";
 import MoodIcon from "@mui/icons-material/Mood";
 import MoodBadIcon from "@mui/icons-material/MoodBad";
+import GolfCourseIcon from "@mui/icons-material/GolfCourse";
 
 export default function Component() {
+  const [unknowns, setUnknowns] = useState(0);
   const [values, setValues] = useState([]);
   const [seconds, setSeconds] = useState(0);
   const [isStarted, setIsStarted] = useState(false);
@@ -24,26 +26,36 @@ export default function Component() {
 
   const handleClick = (e: any, i: number, j: number) => {
     if (!isStarted) return;
+    if (unknowns == 0) return;
 
     if (e.type === "click") {
       console.log("Left click");
       console.log(i, j);
     } else if (e.type === "contextmenu") {
+      e.preventDefault();
+
       console.log("Right click");
       console.log(i, j);
 
       const array: any = [...values, { i, j }];
       setValues(array);
+
+      setUnknowns(unknowns - 1);
     }
   };
 
   const handleOnStartButtonClick = () => {
     const newIsStarted = !isStarted;
+    if (newIsStarted) {
+      setUnknowns(10);
+    }
 
     setIsStarted(newIsStarted);
+
     if (!newIsStarted) {
       setSeconds(0);
       setValues([]);
+      setUnknowns(0);
     }
   };
 
@@ -54,9 +66,9 @@ export default function Component() {
           <TextField
             fullWidth
             variant="outlined"
-            value={0}
+            value={unknowns}
             disabled
-            label="Bombs"
+            label="Flags (remaining)"
           />
         </Grid>
 
@@ -85,12 +97,13 @@ export default function Component() {
 
                   return (
                     <Button
+                      fullWidth
                       variant={isChecked ? "contained" : "outlined"}
                       key={`button-${i}-${j}`}
                       onClick={(event) => handleClick(event, i, j)}
                       onContextMenu={(event) => handleClick(event, i, j)}
                     >
-                      {isChecked ? "?" : "."}
+                      {isChecked ? <GolfCourseIcon fontSize="small" /> : "."}
                     </Button>
                   );
                 })}
