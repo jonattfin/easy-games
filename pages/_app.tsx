@@ -15,26 +15,41 @@ const DivWithMargin = styled.header`
   font-size: larger;
 `;
 
+const MainCentered = styled.main`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  height: 90vh;
+`;
+
+const CenteredFooter = styled.footer`
+  text-align: center;
+`;
+
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <Container>
       <DivWithMargin>
         <nav>
-          <Grid container spacing={1}>
-            <Grid item xs={6}>
+          <Grid container spacing={2}>
+            <Grid item xs={4}>
               <Link href="/">Home</Link>
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={4}>
               <Link href="/calculator">Calculator</Link>
+            </Grid>
+            <Grid item xs={4}>
+              <Link href="/minesweeper">Minesweeper</Link>
             </Grid>
           </Grid>
         </nav>
-
-        <main>
-          <Component {...pageProps} />
-        </main>
-        <footer>© 2021 easy-games.com. All rights reserved.</footer>
       </DivWithMargin>
+
+      <MainCentered>
+        <Component {...pageProps} />
+      </MainCentered>
+      <CenteredFooter>© 2021 easy-games.com. All rights reserved.</CenteredFooter>
     </Container>
   );
 }
